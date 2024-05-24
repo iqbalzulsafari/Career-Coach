@@ -1,5 +1,9 @@
-openai
 flask
+openai
 spacy
 transformers
-sentence-transformers
+torch
+pdfminer.six
+numpy
+pandas
+scikit-learn
