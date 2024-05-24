@@ -13,7 +13,7 @@ model = BertModel.from_pretrained('bert-base-uncased')
 semantic_similarity = pipeline('feature-extraction', model=model, tokenizer=tokenizer)
 
 # Set OpenAI API key
-openai.api_key = 'sk-proj-QNMLFaZleFiasA9oTcXPT3BlbkFJSMiaO2D9WBaFiwEHgR6p'
+openai.api_key = 'your_openai_api_key'
 
 @app.route('/ask', methods=['POST'])
 def ask_question():
@@ -50,4 +50,3 @@ def evaluate_answer():
 
 if __name__ == "__main__":
     app.run(debug=True)
-
