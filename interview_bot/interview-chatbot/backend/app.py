@@ -1,30 +1,52 @@
 from flask import Flask, request, jsonify
-from flask_cors import CORS
-from models import db, setup_db
-from interview_bot import generate_interview_question, evaluate_answer
-from resume_analyzer import analyze_resume
+import openai
+import spacy
+from transformers import BertModel, BertTokenizer, pipeline
+import torch
 
 app = Flask(__name__)
-CORS(app)
-setup_db(app)
 
-@app.route('/ask_question', methods=['POST'])
+# Load NLP models
+nlp = spacy.load("en_core_web_sm")
+tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+model = BertModel.from_pretrained('bert-base-uncased')
+semantic_similarity = pipeline('feature-extraction', model=model, tokenizer=tokenizer)
+
+# Set OpenAI API key
+openai.api_key = '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'
+
+@app.route('/ask', methods=['POST'])
 def ask_question():
     data = request.json
-    question = generate_interview_question(data['role'])
+    question = data.get('question')
+    role = data.get('role')
+    
+    # Generate question using OpenAI GPT
+    response = openai.Completion.create(
+        engine="davinci-codex",
+        prompt=f"Generate an interview question for a {role} position.",
+        max_tokens=50
+    )
+    question = response.choices[0].text.strip()
     return jsonify({"question": question})
 
-@app.route('/evaluate_answer', methods=['POST'])
-def evaluate():
+@app.route('/evaluate', methods=['POST'])
+def evaluate_answer():
     data = request.json
-    feedback = evaluate_answer(data['question'], data['answer'])
-    return jsonify({"feedback": feedback})
+    answer = data.get('answer')
+    ideal_answer = data.get('ideal_answer')
 
-@app.route('/analyze_resume', methods=['POST'])
-def analyze():
-    file = request.files['resume']
-    recommendations = analyze_resume(file)
-    return jsonify({"recommendations": recommendations})
+    # Compute semantic similarity
+    answer_embedding = semantic_similarity(answer)
+    ideal_answer_embedding = semantic_similarity(ideal_answer)
+    
+    similarity_score = torch.cosine_similarity(
+        torch.tensor(answer_embedding).mean(dim=1),
+        torch.tensor(ideal_answer_embedding).mean(dim=1)
+    ).item()
 
-if __name__ == '__main__':
+    feedback = "Good job!" if similarity_score > 0.8 else "Needs improvement."
+    return jsonify({"score": similarity_score, "feedback": feedback})
+
+if __name__ == "__main__":
     app.run(debug=True)

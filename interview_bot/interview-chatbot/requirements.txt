@@ -1,9 +1,0 @@
-flask
-openai
-spacy
-transformers
-torch
-pdfminer.six
-numpy
-pandas
-scikit-learn
