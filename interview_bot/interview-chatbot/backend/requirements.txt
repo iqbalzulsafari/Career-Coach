@@ -4,7 +4,6 @@ torch
 spacy
 flask
 flask-cors
-sqlalchemy
 psycopg2-binary
 pdfminer.six
 python-docx

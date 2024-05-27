@@ -1,52 +1,36 @@
-from flask import Flask, request, jsonify
 import openai
-import spacy
-from transformers import BertModel, BertTokenizer, pipeline
-import torch
+from transformers import BertTokenizer, BertModel
+from scipy.spatial.distance import cosine
 
-app = Flask(__name__)
+openai.api_key = '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'
 
-# Load NLP models
-nlp = spacy.load("en_core_web_sm")
-tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
-model = BertModel.from_pretrained('bert-base-uncased')
-semantic_similarity = pipeline('feature-extraction', model=model, tokenizer=tokenizer)
+def generate_interview_question(role):
+    prompt = f"Generate a common interview question for the role of {role}."
+    response = openai.Completion.create(engine="text-davinci-003", prompt=prompt, max_tokens=50)
+    return response.choices[0].text.strip()
 
-# Set OpenAI API key
-openai.api_key = 'your_openai_api_key'
+def evaluate_answer(question, answer):
+    expected_answer = openai.Completion.create(
+        engine="text-davinci-003",
+        prompt=f"Generate an ideal answer for the interview question: {question}",
+        max_tokens=150
+    ).choices[0].text.strip()
 
-@app.route('/ask', methods=['POST'])
-def ask_question():
-    data = request.json
-    question = data.get('question')
-    role = data.get('role')
-    
-    # Generate question using OpenAI GPT
-    response = openai.Completion.create(
-        engine="davinci-codex",
-        prompt=f"Generate an interview question for a {role} position.",
-        max_tokens=50
-    )
-    question = response.choices[0].text.strip()
-    return jsonify({"question": question})
+    tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+    model = BertModel.from_pretrained('bert-base-uncased')
 
-@app.route('/evaluate', methods=['POST'])
-def evaluate_answer():
-    data = request.json
-    answer = data.get('answer')
-    ideal_answer = data.get('ideal_answer')
+    question_embedding = model(**tokenizer(question, return_tensors='pt'))[0].mean(1)
+    answer_embedding = model(**tokenizer(answer, return_tensors='pt'))[0].mean(1)
+    expected_embedding = model(**tokenizer(expected_answer, return_tensors='pt'))[0].mean(1)
 
-    # Compute semantic similarity
-    answer_embedding = semantic_similarity(answer)
-    ideal_answer_embedding = semantic_similarity(ideal_answer)
-    
-    similarity_score = torch.cosine_similarity(
-        torch.tensor(answer_embedding).mean(dim=1),
-        torch.tensor(ideal_answer_embedding).mean(dim=1)
-    ).item()
+    similarity = 1 - cosine(answer_embedding.detach().numpy(), expected_embedding.detach().numpy())
+    feedback = f"Similarity score: {similarity:.2f}. "
 
-    feedback = "Good job!" if similarity_score > 0.8 else "Needs improvement."
-    return jsonify({"score": similarity_score, "feedback": feedback})
+    if similarity > 0.8:
+        feedback += "Great answer!"
+    elif similarity > 0.5:
+        feedback += "Good answer, but there's room for improvement."
+    else:
+        feedback += "Consider improving your answer."
 
-if __name__ == "__main__":
-    app.run(debug=True)
+    return feedback

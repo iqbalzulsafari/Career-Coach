@@ -1,38 +1,32 @@
+import spacy
 from pdfminer.high_level import extract_text
-import re
+from docx import Document
 
-@app.route('/upload_resume', methods=['POST'])
-def upload_resume():
-    file = request.files['file']
-    filename = secure_filename(file.filename)
-    file.save(filename)
-    
-    text = extract_text(filename)
-    os.remove(filename)
-    
-    # Extract skills and experiences
-    doc = nlp(text)
-    skills = [ent.text for ent in doc.ents if ent.label_ == "SKILL"]
-    experiences = [ent.text for ent in doc.ents if ent.label_ == "EXPERIENCE"]
-    
-    return jsonify({"skills": skills, "experiences": experiences})
+nlp = spacy.load('en_core_web_sm')
 
-@app.route('/resume_feedback', methods=['POST'])
-def resume_feedback():
-    data = request.json
-    text = data.get('text')
-    
-    # Analyze text and provide feedback
+def extract_text_from_file(file):
+    if file.filename.endswith('.pdf'):
+        text = extract_text(file)
+    elif file.filename.endswith('.docx'):
+        doc = Document(file)
+        text = "\n".join([para.text for para in doc.paragraphs])
+    else:
+        raise ValueError("Unsupported file format.")
+    return text
+
+def analyze_resume(file):
+    text = extract_text_from_file(file)
     doc = nlp(text)
     entities = [(ent.text, ent.label_) for ent in doc.ents]
-    
-    feedback = []
-    if not any(ent[1] == "SKILL" for ent in entities):
-        feedback.append("Consider adding relevant skills.")
-    if not any(ent[1] == "EXPERIENCE" for ent in entities):
-        feedback.append("Consider detailing your experiences.")
-    
-    return jsonify({"feedback": feedback})
 
-def secure_filename(filename):
-    return re.sub(r'[^a-zA-Z0-9_.-]', '_', filename)
+    skills = [ent.text for ent in doc.ents if ent.label_ == 'SKILL']
+    experiences = [ent.text for ent in doc.ents if ent.label_ == 'EXPERIENCE']
+    education = [ent.text for ent in doc.ents if ent.label_ == 'EDUCATION']
+
+    recommendations = {
+        "skills": skills,
+        "experiences": experiences,
+        "education": education,
+        "overall_feedback": "Ensure your resume is concise and highlights relevant skills and experiences."
+    }
+    return recommendations
