@@ -1,6 +1,7 @@
 import spacy
 from pdfminer.high_level import extract_text
 import re
+import os
 
 @app.route('/upload_resume', methods=['POST'])
 def upload_resume():
