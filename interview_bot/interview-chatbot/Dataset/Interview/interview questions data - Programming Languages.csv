@@ -1,0 +1,10 @@
+No.,QUESTIONS,ANSWERS
+1,What are the four pillars of object-oriented programming?,"Encapsulation, Abstraction, Inheritance, Polymorphism."
+2,"Encapsulation, Abstraction, Inheritance, Polymorphism.","A lambda function is an anonymous, small function defined with the lambda keyword."
+3,Explain the concept of closures in JavaScript.,A closure is a function that retains access to its lexical scope even when the function is executed outside that scope.
+4,What is a constructor in Java?,A constructor is a special method used to initialize objects when a class is instantiated.
+5,Describe garbage collection in Java.,Garbage collection is an automatic memory management process that reclaims memory occupied by objects that are no longer in use.
+6,What is an interface in Java?,An interface is an abstract type that defines a set of methods that a class must implement without providing the method implementations.
+7,Explain the Global Interpreter Lock (GIL) in Python.,"The GIL is a mutex that protects access to Python objects, preventing multiple native threads from executing Python bytecodes simultaneously in a multi-threaded program."
+8,What is a tuple in Python?,"A tuple is an immutable, ordered sequence of elements."
+9,What is the main difference between functional programming and object-oriented programming?,"Functional programming focuses on the use of functions and immutable data, while object-oriented programming focuses on objects and encapsulating state and behavior within them."
