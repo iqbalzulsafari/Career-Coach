@@ -12,3 +12,4 @@ nltk
 pandas
 scikit-learn
 datasets
+openpyxl

@@ -33,12 +33,12 @@ def evaluate_answer(answer, ideal_answer):
     similarity_score = torch.cosine_similarity(
         torch.tensor(answer_embedding).mean(dim=1),
         torch.tensor(ideal_answer_embedding).mean(dim=1)
-    ).item()
+    ).item() * 10  # Scale similarity score to /10 form
 
     # Provide feedback based on the similarity score
-    if similarity_score > 0.8:
+    if similarity_score > 8.5:
         feedback = "High"
-    elif similarity_score > 0.6:
+    elif similarity_score > 5:
         feedback = "Medium"
     else:
         feedback = "Low"
@@ -47,7 +47,7 @@ def evaluate_answer(answer, ideal_answer):
 
 def main():
     # Load the interview dataset
-    dataset_path = "C:/Users/iqbalzulsafari/Documents/NLP-Chatbot/interview-chatbot/Dataset/Interview/Interview_Questions.csv"
+    dataset_path = "C:/Users/iqbalzulsafari/Documents/NLP-Chatbot/interview-chatbot/Dataset/Interview_Questions.csv"
     dataset = pd.read_csv(dataset_path)
 
     # Get unique categories from the dataset
@@ -67,6 +67,10 @@ def main():
     print(f"Welcome to the interview for the {selected_category} course!")
     print("Type 'exit' at any time to end the interview.")
 
+    total_score = 0
+    num_questions = len(category_dataset)
+    low_or_medium_count = 0
+    
     # Iterate over questions for the category
     for index, row in category_dataset.iterrows():
         question = row["questions"]
@@ -79,8 +83,22 @@ def main():
             return
 
         score, feedback = evaluate_answer(answer, best_answer)
-        print("Similarity score:", score)
-        print("Evaluation:", feedback)
+        print("Score (/10): {:.1f}".format(score))
+        print("Answer evaluation:", feedback)
+        
+        total_score += score
+        
+        if feedback in ["Low", "Medium"]:
+            low_or_medium_count += 1
+            print("Best answer:", best_answer)
+
+    overall_score = total_score / num_questions
+    overall_score_scaled = overall_score
+    print("\nOverall Score (/10): {:.1f}".format(overall_score_scaled))
+    print("Interview completed. Thank you!")
 
 if __name__ == "__main__":
     main()
+
+
+
