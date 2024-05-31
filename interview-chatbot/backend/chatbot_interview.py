@@ -74,15 +74,13 @@ def main():
 
         print("\nQuestion:", question)
         answer = input("Your answer: ")
-        
         if answer.lower() == 'exit':
             print("Interview ended.")
-            break
+            return
 
         score, feedback = evaluate_answer(answer, best_answer)
         print("Similarity score:", score)
         print("Evaluation:", feedback)
 
-    else:
-        print("Interview completed. Thank you!")
-
+if __name__ == "__main__":
+    main()
