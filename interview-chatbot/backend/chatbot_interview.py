@@ -3,7 +3,7 @@ import openai
 import spacy
 from transformers import BertModel, BertTokenizer, pipeline
 import torch
-from datasets import load_dataset
+import pandas as pd
 
 # Load NLP models
 nlp = spacy.load("en_core_web_sm")
@@ -25,55 +25,64 @@ def generate_question(role):
     question = response.choices[0].text.strip()
     return question
 
-def evaluate_answer(answer, responses, evaluations):
-    max_similarity_score = -1
-    closest_response = None
-    feedback = None
+def evaluate_answer(answer, ideal_answer):
+    # Compute semantic similarity
+    answer_embedding = semantic_similarity(answer)
+    ideal_answer_embedding = semantic_similarity(ideal_answer)
     
-    # Compute semantic similarity with each response in the dataset
-    for response, evaluation in zip(responses, evaluations):
-        similarity_score = torch.cosine_similarity(
-            torch.tensor(semantic_similarity(answer)).mean(dim=1),
-            torch.tensor(semantic_similarity(response)).mean(dim=1)
-        ).item()
-        
-        # Keep track of the closest match
-        if similarity_score > max_similarity_score:
-            max_similarity_score = similarity_score
-            closest_response = response
-            feedback = evaluation
-    
-    return max_similarity_score, closest_response, feedback
+    similarity_score = torch.cosine_similarity(
+        torch.tensor(answer_embedding).mean(dim=1),
+        torch.tensor(ideal_answer_embedding).mean(dim=1)
+    ).item()
+
+    # Provide feedback based on the similarity score
+    if similarity_score > 0.8:
+        feedback = "High"
+    elif similarity_score > 0.6:
+        feedback = "Medium"
+    else:
+        feedback = "Low"
+
+    return similarity_score, feedback
 
 def main():
     # Load the interview dataset
-    dataset = load_dataset("waelChafei/interviewtest")
+    dataset_path = "C:/Users/iqbalzulsafari/Documents/NLP-Chatbot/interview-chatbot/Dataset/Interview/Interview_Questions.csv"
+    dataset = pd.read_csv(dataset_path)
 
-    # Extract questions, responses, and evaluations
-    questions = dataset["train"]["question"]
-    responses = dataset["train"]["response"]
-    evaluations = dataset["train"]["evaluation"]
+    # Get unique categories from the dataset
+    categories = dataset["category"].unique()
 
-    # Ask for the user's role
-    role = input("Enter your role: ")
+    # Ask for the user's course (category)
+    print("Available categories:")
+    for i, category in enumerate(categories, 1):
+        print(f"{i}. {category}")
+    category_choice = int(input("Choose a category (enter the number): "))
+    selected_category = categories[category_choice - 1]
 
-    # Start the interview
-    print("Welcome to the interview, " + role + "!")
+    # Filter dataset based on selected category
+    category_dataset = dataset[dataset["category"] == selected_category]
+
+    # Start the interview for the category
+    print(f"Welcome to the interview for the {selected_category} course!")
     print("Type 'exit' at any time to end the interview.")
 
-    for question, response, evaluation in zip(questions, responses, evaluations):
+    # Iterate over questions for the category
+    for index, row in category_dataset.iterrows():
+        question = row["questions"]
+        best_answer = row["best answer"]
+
         print("\nQuestion:", question)
         answer = input("Your answer: ")
+        
         if answer.lower() == 'exit':
             print("Interview ended.")
             break
 
-        score, closest_response, feedback = evaluate_answer(answer, responses, evaluations)
+        score, feedback = evaluate_answer(answer, best_answer)
         print("Similarity score:", score)
-        print("Ideal answer:", closest_response)
-        print("Answer evaluation:", feedback)
+        print("Evaluation:", feedback)
+
     else:
         print("Interview completed. Thank you!")
 
-if __name__ == "__main__":
-    main()
