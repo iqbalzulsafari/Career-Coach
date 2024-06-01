@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Page 1</title>
+    <link rel="stylesheet" href="mainPageStyle.css">
+    <script>
+        function navigateToPage() {
+            window.location.href = "test.html";
+        }
+    </script>
+</head>
+<body>
+
+        <nav class="navbar">
+            <div class="logo">Logo</div>
+            <div class="login-links">
+                <a href="#">Login</a> |
+                <a href="#">Sign Up</a>
+            </div>
+        </nav>
+
+        <div class="image-container">
+            <img src="symbol.png" alt="Your Image" class="your-image">
+        </div>
+
+        <div class="header-content">
+            <div class="icon"></div> <!-- You can add the icon using CSS or as an <img> tag -->
+            <h1>How can I help you today?</h1>
+        </div>
+
+        <div class="button-content">
+            <div class="icon2"></div> <!-- You can add the icon using CSS or as an <img> tag -->
+            <button id="mockup-interview" onclick="navigateToPage()">MOCKUP INTERVIEW</button>
+            <button id="analyze-resume">ANALYZE MY RESUME</button>
+        </div>
+
+    
+</body>
+</html>
