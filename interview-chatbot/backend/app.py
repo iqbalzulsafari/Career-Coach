@@ -1,25 +1,28 @@
 from flask import Flask, request, jsonify
-from chatbot import generate_question, evaluate_answer
 
 app = Flask(__name__)
 
-@app.route('/ask', methods=['POST'])
-def ask_question():
-    data = request.json
-    question = data.get('question')
-    role = data.get('role')
-    
-    question = generate_question(role)
-    return jsonify({"question": question})
+@app.route('/chatbot', methods=['POST'])
+def chatbot():
+    user_input = request.json.get('message')
 
-@app.route('/evaluate', methods=['POST'])
-def evaluate_answer_route():
-    data = request.json
-    answer = data.get('answer')
-    ideal_answer = data.get('ideal_answer')
+    # Your chatbot logic goes here
+    # Example: Dummy response for now
+    bot_response = "This is a dummy response from the chatbot."
 
-    score, feedback = evaluate_answer(answer, ideal_answer)
-    return jsonify({"score": score, "feedback": feedback})
+    return jsonify({'response': bot_response})
 
-if __name__ == "__main__":
+@app.route('/resume-analyzer', methods=['POST'])
+def resume_analyzer():
+    # Your resume analyzer logic goes here
+    # Example: Dummy response for now
+    resume_data = request.json.get('resume')
+
+    # Analyze the resume and generate a score
+    resume_score = 90
+    issues_found = 5
+
+    return jsonify({'score': resume_score, 'issues_found': issues_found})
+
+if __name__ == '__main__':
     app.run(debug=True)
