@@ -2,11 +2,10 @@ import spacy
 from pdfminer.high_level import extract_text
 import re
 import os
-from flask import Blueprint, request, jsonify
+from flask import Flask, request, jsonify
 import joblib
 import scipy.sparse
 
-resume_analyzer_bp = Blueprint('resume_analyzer', __name__)
 
 # Load NLP models
 nlp = spacy.load("en_core_web_sm")
