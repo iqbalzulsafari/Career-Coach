@@ -4,10 +4,8 @@ import spacy
 from transformers import BertModel, BertTokenizer, pipeline
 import torch
 import pandas as pd
-from flask import Blueprint, request, jsonify
+from flask import Flask, request, jsonify
 from dotenv import load_dotenv
-
-chatbot_bp = Blueprint('chatbot', __name__)
 
 # Load NLP models
 nlp = spacy.load("en_core_web_sm")

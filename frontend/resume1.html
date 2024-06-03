@@ -126,7 +126,7 @@
                 <p class="desc">A free and fast resume analyzer doing crucial checks to ensure your resume to perform and get you interview callbacks.</p>
                 <div class="upload-section">
                     <label for="resume-upload" class="upload-label">Upload Your Resume</label>
-                    <input type="file" id="resume-upload" class="upload-button" accept=".pdf,.doc,.docx">
+                    <input type="file" id="resume-upload" class="upload-button" accept=".pdf,.doc,.docx" onchange="uploadResume()">
                 </div>
             </div>
             <div class="right-side">
@@ -136,28 +136,26 @@
     </div>
 
     <script>
-        document.getElementById('resume-upload').addEventListener('change', async function(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const formData = new FormData();
-                formData.append('resume', file);
+        function uploadResume() {
+            const fileInput = document.getElementById('resume-upload');
+            const file = fileInput.files[0];
+            const formData = new FormData();
+            formData.append('resume', file);
 
-                try {
-                    const response = await fetch('http://localhost:5000/upload_resume', {
-                        method: 'POST',
-                        body: formData
-                    });
-                    const data = await response.json();
-                    if (response.ok) {
-                        window.location.href = 'resume2.html';
-                    } else {
-                        alert('Error: ' + data.error);
-                    }
-                } catch (error) {
+            fetch('http://localhost:5000/resume-analyzer', {
+                method: 'POST',
+                body: formData,
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // Handle response from server (e.g., display score and issues)
+                    console.log(data);
+                })
+                .catch(error => {
                     console.error('Error:', error);
-                }
-            }
-        });
+                });
+        }
     </script>
+
 </body>
 </html>

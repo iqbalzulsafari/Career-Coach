@@ -6,10 +6,15 @@
     <title>Main Page</title>
     <link rel="stylesheet" href="mainPageStyle.css">
     <script>
-        function navigateToPage(page) {
-            window.location.href = page;
+        function navigateToChatbot() {
+            window.location.href = "ChatBot.html";
+        }
+
+        function navigateToResumeAnalyzer() {
+            window.location.href = "resume1.html";
         }
     </script>
+
 </head>
 <body>
 
@@ -30,8 +35,9 @@
     </div>
 
     <div class="button-content">
-        <button id="mockup-interview" onclick="navigateToPage('ChatBot.html')">MOCKUP INTERVIEW</button>
-        <button id="analyze-resume" onclick="navigateToPage('resume1.html')">ANALYZE MY RESUME</button>
+        <div class="icon2"></div>
+        <button id="mockup-interview" onclick="navigateToChatbot()">MOCKUP INTERVIEW</button>
+        <button id="analyze-resume" onclick="navigateToResumeAnalyzer()">ANALYZE MY RESUME</button>
     </div>
 
 </body>
