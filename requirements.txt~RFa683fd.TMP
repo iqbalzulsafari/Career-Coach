@@ -18,6 +18,3 @@ scipy
 joblib
 streamlit
 requests
-wordnet
-pros_cons
-reuters
