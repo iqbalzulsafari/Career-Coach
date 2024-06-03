@@ -32,12 +32,12 @@ jobs:
 
     - name: Install frontend dependencies
       run: |
-        cd frontend
+        cd templates
         npm install
 
     - name: Build frontend
       run: |
-        cd frontend
+        cd templates
         npm run build  # Adjust this command if your frontend build command is different
 
     - name: Run Gunicorn
