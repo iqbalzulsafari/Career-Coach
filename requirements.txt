@@ -13,3 +13,6 @@ pandas
 scikit-learn
 datasets
 openpyxl
+python-dotenv
+scipy
+joblib

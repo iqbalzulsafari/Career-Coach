@@ -1,28 +1,13 @@
-from flask import Flask, request, jsonify
+from flask import Flask
+from chatbot_interview import chatbot_bp
+from resume_analyzer import resume_analyzer_bp
 
 app = Flask(__name__)
 
-@app.route('/chatbot', methods=['POST'])
-def chatbot():
-    user_input = request.json.get('message')
+# Register blueprints
+app.register_blueprint(chatbot_bp, url_prefix='/chatbot')
+app.register_blueprint(resume_analyzer_bp, url_prefix='/resume_analyzer')
 
-    # Your chatbot logic goes here
-    # Example: Dummy response for now
-    bot_response = "This is a dummy response from the chatbot."
-
-    return jsonify({'response': bot_response})
-
-@app.route('/resume-analyzer', methods=['POST'])
-def resume_analyzer():
-    # Your resume analyzer logic goes here
-    # Example: Dummy response for now
-    resume_data = request.json.get('resume')
-
-    # Analyze the resume and generate a score
-    resume_score = 90
-    issues_found = 5
-
-    return jsonify({'score': resume_score, 'issues_found': issues_found})
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True)
+
