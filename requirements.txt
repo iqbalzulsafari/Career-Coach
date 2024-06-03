@@ -10,10 +10,7 @@ python-docx
 nltk
 pandas
 scikit-learn
-datasets
-openpyxl
 python-dotenv
 scipy
 joblib
 requests
-reuters
