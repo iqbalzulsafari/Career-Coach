@@ -4,6 +4,10 @@ import spacy
 from transformers import BertModel, BertTokenizer, pipeline
 import torch
 import pandas as pd
+from flask import Blueprint, request, jsonify
+from dotenv import load_dotenv
+
+chatbot_bp = Blueprint('chatbot', __name__)
 
 # Load NLP models
 nlp = spacy.load("en_core_web_sm")
@@ -12,7 +16,8 @@ model = BertModel.from_pretrained('bert-base-uncased')
 semantic_similarity = pipeline('feature-extraction', model=model, tokenizer=tokenizer)
 
 # Set OpenAI API key
-openai.api_key = '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'
+load_dotenv()
+openai.api_key = os.getenv('OPENAI_API_KEY')
 
 def generate_question(role):
     # Generate question using OpenAI GPT
