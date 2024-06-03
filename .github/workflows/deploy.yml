@@ -28,9 +28,5 @@ jobs:
       run: |
         cd templates/interview-chatbot-ui
         npm install
-    - name: Build frontend
-      run: |
-        cd templates/interview-chatbot-ui
-        npm run build
     - name: Run app
       run: python app.py
