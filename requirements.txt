@@ -7,7 +7,6 @@ flask-cors
 psycopg2-binary
 pdfminer.six
 python-docx
-lightning
 nltk
 pandas
 scikit-learn
@@ -16,6 +15,5 @@ openpyxl
 python-dotenv
 scipy
 joblib
-streamlit
 requests
 reuters
