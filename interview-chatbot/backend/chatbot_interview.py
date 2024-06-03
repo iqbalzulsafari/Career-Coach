@@ -52,7 +52,7 @@ def evaluate_answer(answer, ideal_answer):
 
 def main():
     # Load the interview dataset
-    dataset_path = "interview-chatbot/Dataset/Interview_Questions.csv"
+    dataset_path = "NlP-Chatbot/Dataset/Interview_Questions.csv"
     dataset = pd.read_csv(dataset_path)
 
     # Get unique categories from the dataset

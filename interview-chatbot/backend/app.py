@@ -150,7 +150,7 @@ def analyze_job_fit(text, job_position):
 @app.route('/conduct_chatbot_interview', methods=['GET'])
 def conduct_chatbot_interview():
     # Load the interview dataset
-    dataset_path = "interview-chatbot/Dataset/Interview_Questions.csv"
+    dataset_path = "NlP-Chatbot/Dataset/Interview_Questions.csv"
     dataset = pd.read_csv(dataset_path)
 
     # Get unique categories from the dataset

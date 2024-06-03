@@ -6,7 +6,7 @@ import joblib
 import scipy.sparse
 
 # Load dataset
-dataset = pd.read_csv("NLP-Chatbot\interview-chatbot\Dataset\DATASET RESUME.csv")
+dataset = pd.read_csv("NLP-Chatbot\Dataset\DATASET RESUME.csv")
 
 # Handle NaN values and convert float values to strings
 dataset.fillna('', inplace=True)
@@ -42,13 +42,13 @@ X_train_vec = scipy.sparse.hstack([X_train_vec_skills, X_train_vec_tools, X_trai
 X_test_vec = scipy.sparse.hstack([X_test_vec_skills, X_test_vec_tools, X_test_vec_education])
 
 # Save vectorizers
-skills_path = r"interview-chatbot\\pkl\\tfidf_vectorizer_skills.pkl"
+skills_path = r"NlP-Chatbot\\pkl\\tfidf_vectorizer_skills.pkl"
 joblib.dump(vectorizer_skills, skills_path)
 
-tools_path = r"interview-chatbot\\pkl\\tfidf_vectorizer_tools.pkl"
+tools_path = r"NlP-Chatbot\\pkl\\tfidf_vectorizer_tools.pkl"
 joblib.dump(vectorizer_tools, tools_path)
 
-edu_path = r"interview-chatbot\\pkl\\tfidf_vectorizer_education.pkl"
+edu_path = r"NlP-Chatbot\\pkl\\tfidf_vectorizer_education.pkl"
 joblib.dump(vectorizer_education, edu_path)
 
 # Model training (SVM classifier)
@@ -59,6 +59,6 @@ classifier.fit(X_train_vec, y_train)
 y_pred = classifier.predict(X_test_vec)
 
 # Save the trained model to disk
-classifier_path = r"interview-chatbot\\pkl\\nlp_model.pkl"
+classifier_path = r"NlP-Chatbot\\pkl\\nlp_model.pkl"
 joblib.dump(classifier, classifier_path)
 
