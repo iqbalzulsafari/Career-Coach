@@ -24,4 +24,4 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     - name: Build and deploy
-      run: app.py
+      run: backend/app.py
