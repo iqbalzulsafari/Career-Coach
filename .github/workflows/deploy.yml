@@ -3,7 +3,7 @@ name: Deploy
 on:
   push:
     branches:
-      - master  # Change this to your main branch name
+      - main  # Change this to your main branch name
 
 jobs:
   deploy:
@@ -43,7 +43,7 @@ jobs:
     - name: Run Gunicorn
       run: |
         source venv/bin/activate
-        gunicorn --bind 0.0.0.0:5000 app:app
+        gunicorn --bind 0.0.0.0:8000 app:app
       env:
         FLASK_APP: app.py
         FLASK_ENV: production
