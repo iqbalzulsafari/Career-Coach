@@ -18,5 +18,4 @@ scipy
 joblib
 streamlit
 requests
-pros_cons
 reuters
