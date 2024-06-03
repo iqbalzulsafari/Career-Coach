@@ -20,12 +20,13 @@ jobs:
         python-version: '3.12'  # Specify your Python version
     - name: Install dependencies
       run: |
-          .venv/Scripts/activate
-          pip install -r requirements.txt
+        python -m venv .venv
+        source .venv/bin/activate
+        pip install -r requirements.txt
 
     - name: Test with pytest
       run: |
-          .venv/Scripts/activate
-          pytest
+        source .venv/bin/activate
+        pytest
     - name: Build and deploy
       run: backend/app.py
