@@ -9,11 +9,10 @@ import scipy.sparse
 
 # Load NLP models
 nlp = spacy.load("en_core_web_sm")
-classifier_path = r"NlP-Chatbot\\pkl\\nlp_model.pkl"
-vectorizer_skills_path = r"NlP-Chatbot\\pkl\\tfidf_vectorizer_skills.pkl"
-vectorizer_tools_path = r"NlP-Chatbot\\pkl\\tfidf_vectorizer_tools.pkl"
-vectorizer_education_path = r"NlP-Chatbot\\pkl\\tfidf_vectorizer_education.pkl"
-job_positions_path = r"NlP-Chatbot\\pkl\\job_positions.pkl"
+classifier_path = r"C:\Users\iqbalzulsafari\Documents\NLP-Chatbot\pkl\nlp_model.pkl"
+vectorizer_skills_path = r"C:\Users\iqbalzulsafari\Documents\NLP-Chatbot\pkl\tfidf_vectorizer_skills.pkl"
+vectorizer_tools_path = r"C:\Users\iqbalzulsafari\Documents\NLP-Chatbot\pkl\tfidf_vectorizer_tools.pkl"
+vectorizer_education_path = r"C:\Users\iqbalzulsafari\Documents\NLP-Chatbot\pkl\tfidf_vectorizer_education.pkl"
 
 classifier = joblib.load(classifier_path)
 vectorizer_skills = joblib.load(vectorizer_skills_path)
