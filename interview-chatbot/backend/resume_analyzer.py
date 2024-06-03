@@ -20,7 +20,6 @@ classifier = joblib.load(classifier_path)
 vectorizer_skills = joblib.load(vectorizer_skills_path)
 vectorizer_tools = joblib.load(vectorizer_tools_path)
 vectorizer_education = joblib.load(vectorizer_education_path)
-job_positions = joblib.load(job_positions_path)
 
 # Define Flask app
 app = Flask(__name__)
