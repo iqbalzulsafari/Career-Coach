@@ -9,7 +9,7 @@ import streamlit as st
 
 # Load NLP models
 nlp = spacy.load("en_core_web_sm")
-classifier_path = r"interview-chatbot\\pkl\\nlp_model2.pkl"
+classifier_path = r"interview-chatbot\\pkl\\nlp_model.pkl"
 vectorizer_skills_path = r"interview-chatbot\\pkl\\tfidf_vectorizer_skills.pkl"
 vectorizer_tools_path = r"interview-chatbot\\pkl\\tfidf_vectorizer_tools.pkl"
 vectorizer_education_path = r"interview-chatbot\\pkl\\tfidf_vectorizer_education.pkl"
