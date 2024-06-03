@@ -23,13 +23,13 @@
             padding: 10px 20px;
         }
 
-        .top-bar .title {
-            font-size: 15px;
-        }
+            .top-bar .title {
+                font-size: 15px;
+            }
 
-        .top-bar .user-logo i {
-            font-size: 20px;
-        }
+            .top-bar .user-logo i {
+                font-size: 20px;
+            }
 
         .content {
             display: flex;
@@ -37,15 +37,16 @@
             padding: 50px;
         }
 
-        .content .left-side, .content .right-side {
+            .content .left-side, .content .right-side {
+                flex: 1;
+                margin: 0 10px;
+            }
+
+        .title {
             flex: 1;
             margin: 0 10px;
         }
 
-        .title{
-            flex: 1;
-            margin: 0 10px;
-        }
         .right-side {
             display: flex;
             align-items: flex-end;
@@ -80,16 +81,16 @@
             font-size: 15px;
         }
 
-        .dropdown-content a {
-            color: white;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-        }
+            .dropdown-content a {
+                color: white;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+            }
 
-        .dropdown-content a:hover {
-            background-color: #434242;
-        }
+                .dropdown-content a:hover {
+                    background-color: #434242;
+                }
 
         .user-logo:hover .dropdown-content {
             display: block;
@@ -110,16 +111,15 @@
         <div class="user-logo">
             <i class="fas fa-user"></i> <!-- Font Awesome user icon -->
             <div class="dropdown-content">
-                <a href="home.html">Home</a>
+                <a href="main_page.html">Home</a>
                 <a href="resume2.html">Resume Analyzer Result</a>
-                <a href="interview_chatbot.html">Interview Chatbot</a>
+                <a href="ChatBot.html">Interview Chatbot</a>
             </div>
         </div>
     </div>
 
     <!-- Main content of the page -->
     <div class="title">
-
         <div class="content">
             <div class="left-side">
                 <h1>Get expert feedback on your resume, instantly</h1>
@@ -133,8 +133,31 @@
                 <h1>Resume Insights to Strengthen Your Next Application</h1>
             </div>
         </div>
-    </body>
-    </html>
     </div>
-</body>
 
+    <script>
+        document.getElementById('resume-upload').addEventListener('change', async function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const formData = new FormData();
+                formData.append('resume', file);
+
+                try {
+                    const response = await fetch('http://localhost:5000/upload_resume', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const data = await response.json();
+                    if (response.ok) {
+                        window.location.href = 'resume2.html';
+                    } else {
+                        alert('Error: ' + data.error);
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

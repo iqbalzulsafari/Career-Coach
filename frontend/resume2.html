@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resume Analyzer Result</title>
     <!-- Font Awesome CDN -->
-    <link rel="stylesheet" href="htQtps://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
             margin: 0;
@@ -26,13 +26,13 @@
             padding: 10px 20px;
         }
 
-        .top-bar .title {
-            font-size: 15px;
-        }
+            .top-bar .title {
+                font-size: 15px;
+            }
 
-        .top-bar .user-logo i {
-            font-size: 20px;
-        }
+            .top-bar .user-logo i {
+                font-size: 20px;
+            }
 
         .resume-analyzer-container {
             display: flex;
@@ -51,20 +51,20 @@
             overflow-y: auto; /* Add this line to make the sidebar scrollable if content overflows */
         }
 
-        .sidebar h1 {
-            font-size: 20px;
-            margin-bottom: 20px;
-        }
+            .sidebar h1 {
+                font-size: 20px;
+                margin-bottom: 20px;
+            }
 
         .resume-score {
             text-align: center;
             margin-bottom: 20px;
         }
 
-        .resume-score h2 {
-            margin: 0;
-            font-size: 18px;
-        }
+            .resume-score h2 {
+                margin: 0;
+                font-size: 18px;
+            }
 
         .score-circle {
             margin: 10px 0;
@@ -84,58 +84,43 @@
             width: 100%;
         }
 
-        .content-breakdown p {
-            margin: 5px 0;
-        }
+            .content-breakdown p {
+                margin: 5px 0;
+            }
 
         .red {
             color: red;
         }
 
-        .green {
-            color: green;
-        }
-
-        .yellow {
-            color: yellow;
-        }
-
         .main-content {
             flex: 1;
             padding: 20px;
-            background-color: #3a3a3a;
-            color: white;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
             overflow-y: auto; /* Add this line to make the main content scrollable if content overflows */
         }
 
-        .issues-found {
-            background-color: white;
-            color: black;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            align-self: flex-end;
+        .resume-feedback {
+            margin-bottom: 20px;
         }
 
-        .ats-parse-rate {
-            background-color: white;
-            color: black;
-            width: 100%; /* Changed from 80% to 100% to fill the main content width */
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 20px; /* Adjusted margin-top for spacing */
+        .main-content h1 {
+            font-size: 18px;
+            margin-bottom: 10px;
         }
 
-        .parse-bar {
-            background-color: #27ae60;
-            height: 20px;
-            width: 100%; /* Changed from 80% to 100% to fill the ats-parse-rate width */
-            border-radius: 10px;
-            margin: 20px 0;
+        .suggestions {
+            list-style: none;
+            padding-left: 0;
+        }
+
+            .suggestions li {
+                background-color: #3e3e3e;
+                margin: 5px 0;
+                padding: 10px;
+                border-radius: 5px;
+            }
+
+        .user-logo:hover .dropdown-content {
+            display: block;
         }
 
         .dropdown-content {
@@ -149,20 +134,16 @@
             font-size: 15px;
         }
 
-        .dropdown-content a {
-            color: white;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-        }
+            .dropdown-content a {
+                color: white;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+            }
 
-        .dropdown-content a:hover {
-            background-color: #434242;
-        }
-
-        .user-logo:hover .dropdown-content {
-            display: block;
-        }
+                .dropdown-content a:hover {
+                    background-color: #434242;
+                }
     </style>
 </head>
 <body>
@@ -171,35 +152,35 @@
         <div class="user-logo">
             <i class="fas fa-user"></i> <!-- Font Awesome user icon -->
             <div class="dropdown-content">
-                <a href="home.html">Home</a>
-                <a href="resume1.html">Upload My Resume</a>
-                <a href="interview_chatbot.html">Interview Chatbot</a>
+                <a href="main_page.html">Home</a>
+                <a href="resume1.html">Resume Analyzer</a>
+                <a href="ChatBot.html">Interview Chatbot</a>
             </div>
         </div>
     </div>
 
+    <!-- Main content of the page -->
     <div class="resume-analyzer-container">
         <div class="sidebar">
-            <h1>RESUME ANALYZER</h1>
+            <h1>Resume Analysis</h1>
             <div class="resume-score">
-                <h2>Resume Score</h2>
-                <div class="score-circle">
-                    <p>92/100</p>
-                </div>
-                <p>24 Issues</p>
+                <h2>Overall Score</h2>
+                <div class="score-circle">85</div>
             </div>
             <div class="content-breakdown">
-                <p><span class="red">20%</span> SKILL</p>
-                <p><span class="green">80%</span> FORMAT</p>
-                <p><span class="yellow">50%</span> SECTION</p>
-                <p><span class="green">90%</span> SPELLING & GRAMMAR</p>
+                <p><span class="red">Contact Information:</span> Missing phone number</p>
+                <p><span class="red">Experience:</span> Lack of detail</p>
+                <p><span class="red">Skills:</span> Need to add more relevant skills</p>
             </div>
         </div>
         <div class="main-content">
-            <button class="issues-found">ISSUES FOUND</button>
-            <div class="ats-parse-rate">
-                <h2>ATS PARSE RATE</h2>
-                <div class="parse-bar"></div>
+            <div class="resume-feedback">
+                <h1>Detailed Feedback</h1>
+                <ul class="suggestions">
+                    <li>Add a phone number to your contact information.</li>
+                    <li>Include more details about your work experience, such as specific achievements and responsibilities.</li>
+                    <li>Add more skills relevant to the job you're applying for.</li>
+                </ul>
             </div>
         </div>
     </div>

@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Integrated Interview Chatbot and Resume Analyzer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Global Styles */
+        body {
+            margin: 0;
+            font-family: Lucida, monospace;
+        }
+
+        .hidden {
+            display: none;
+        }
+        /* Navbar styling */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #333;
+            color: white;
+            height: 40px;
+        }
+
+            .navbar .login-links a {
+                color: white;
+                text-decoration: none;
+                margin: 0 10px;
+            }
+        /* Main Page Styles */
+        .main-page {
+            background-image: linear-gradient(#004d40, grey);
+            background-size: cover;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+            .main-page .header-content h1 {
+                color: #f9f9f9;
+            }
+
+            .main-page .button-content button {
+                margin: 20px;
+                border-radius: 15px;
+                border-width: 5px;
+                border-color: white;
+                background: #f9f9f9;
+                width: 300px;
+                height: 70px;
+                font-size: 20px;
+                font-weight: bold;
+            }
+        /* Chatbot Page Styles */
+        .chat-container {
+            height: 100vh;
+            max-height: 100vh;
+            background-color: #2f4f4f;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            margin: 0 auto;
+            width: 50%;
+        }
+
+        .chat-header {
+            background-color: #1a3d3d;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+            .chat-header h1 {
+                margin: 0;
+                font-size: 24px;
+            }
+
+            .chat-header p {
+                margin: 5px 0 0 0;
+                font-size: 14px;
+                color: #7fbfbf;
+            }
+
+        .chat-box {
+            padding: 20px;
+            flex-grow: 1;
+            overflow-y: auto;
+            background-color: #4d5c5c;
+        }
+
+        .message {
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 10px;
+            color: white;
+            width: fit-content;
+            max-width: 80%;
+        }
+
+            .message.bot {
+                background-color: #667d7d;
+                align-self: flex-start;
+            }
+
+            .message.user {
+                background-color: #99a9a9;
+                align-self: flex-end;
+            }
+
+            .message p {
+                margin: 0;
+            }
+
+        .chat-input {
+            background-color: #1a3d3d;
+            padding: 20px;
+            display: flex;
+        }
+
+            .chat-input input {
+                flex: 1;
+                padding: 10px;
+                border-radius: 10px;
+                border: none;
+                font-size: 16px;
+            }
+        /* Resume Analyzer Page Styles */
+        .resume-analyzer-container {
+            display: flex;
+            flex: 1;
+            height: 100vh;
+        }
+
+        .sidebar {
+            background-color: #2d2d2d;
+            color: white;
+            padding: 20px;
+            width: 250px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-y: auto;
+        }
+
+            .sidebar h1 {
+                font-size: 20px;
+                margin-bottom: 20px;
+            }
+
+        .resume-score {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+            .resume-score h2 {
+                margin: 0;
+                font-size: 18px;
+            }
+
+        .score-circle {
+            margin: 10px 0;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: #27ae60;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            color: white;
+        }
+
+        .content-breakdown {
+            text-align: left;
+            width: 100%;
+        }
+
+            .content-breakdown p {
+                margin: 5px 0;
+            }
+
+        .red {
+            color: red;
+        }
+
+        .green {
+            color: green;
+        }
+
+        .yellow {
+            color: yellow;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            background-color: #3a3a3a;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow-y: auto;
+        }
+
+        .issues-found {
+            background-color: white;
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            align-self: flex-end;
+        }
+
+        .ats-parse-rate {
+            background-color: white;
+            color: black;
+            width: 100%;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .parse-bar {
+            background-color: #27ae60;
+            height: 20px;
+            width: 100%;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        /* Resume Upload Page Styles */
+        .upload-page {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #324B4F;
+            color: white;
+        }
+
+        .upload-section {
+            margin-top: 70px;
+        }
+
+        .upload-label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .upload-button {
+            display: block;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        /* Dropdown styles */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: #333;
+            min-width: 160px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            font-size: 15px;
+        }
+
+            .dropdown-content a {
+                color: white;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+            }
+
+                .dropdown-content a:hover {
+                    background-color: #434242;
+                }
+
+        .user-logo:hover .dropdown-content {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">Logo</div>
+        <div class="login-links">
+            <a href="#">Login</a> |
+            <a href="#">Sign Up</a>
+        </div>
+    </nav>
+
+    <div id="main-page" class="main-page">
+        <div class="header-content">
+            <h1>How can I help you today?</h1>
+        </div>
+        <div class="button-content">
+            <button id="mockup-interview" onclick="showSection('chat-container')">MOCKUP INTERVIEW</button>
+            <button id="analyze-resume" onclick="showSection('upload-page')">ANALYZE MY RESUME</button>
+        </div>
+    </div>
+
+    <div id="chat-container" class="chat-container hidden">
+        <div class="chat-header">
+            <h1>INTERVIEW CHAT-BOTS</h1>
+            <p>You are interviewing for the position of AI Engineer</p>
+        </div>
+        <div class="chat-box" id="chat-box">
+            <div class="message bot">
+                <p>Tell me about yourself</p>
+            </div>
+            <div class="message user">
+                <p>My name is Mariam Azlina. I am a seasoned AI Engineer at SLB Company for 5 years. My area of expertise is NLP, Machine Learning, and Computer Vision. I've worked on various projects, collaborating with teams to develop and deploy AI solutions.</p>
+            </div>
+            <div class="message bot">
+                <p>Can you provide an example of a challenging AI project you've worked on in the past, and how you contributed to its success?</p>
+            </div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="user-input" placeholder="Type your message here..." />
+        </div>
+    </div>
+
+    <div id="resume-analyzer-container" class="resume-analyzer-container hidden">
+        <div class="sidebar">
+            <h1>RESUME SCORE</h1>
+            <div class="resume-score">
+                <h2>Overall Score</h2>
+                <div class="score-circle">85</div>
+            </div>
+            <div class="content-breakdown">
+                <p>Contact Info: <span class="green">Complete</span></p>
+                <p>Experience: <span class="green">Complete</span></p>
+                <p>Education: <span class="yellow">Needs More Detail</span></p>
+                <p>Skills: <span class="red">Missing Keywords</span></p>
+            </div>
+        </div>
+        <div class="main-content">
+            <button class="issues-found">ISSUES FOUND</button>
+            <div class="ats-parse-rate">
+                <h2>ATS Parse Rate</h2>
+                <div class="parse-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="upload-page" class="upload-page hidden">
+        <div class="upload-section">
+            <label for="file-upload" class="upload-label">Upload your resume:</label>
+            <input type="file" id="file-upload" class="upload-button">
+        </div>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            document.querySelectorAll('.hidden').forEach(section => section.classList.add('hidden'));
+            document.getElementById(sectionId).classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
