@@ -1,25 +1,14 @@
-from flask import Flask, request, jsonify
-from chatbot import generate_question, evaluate_answer
+from flask import Flask
+from chatbot_interview import chatbot_bp
+from resume_analyzer import resume_analyzer_bp
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
-@app.route('/ask', methods=['POST'])
-def ask_question():
-    data = request.json
-    question = data.get('question')
-    role = data.get('role')
-    
-    question = generate_question(role)
-    return jsonify({"question": question})
-
-@app.route('/evaluate', methods=['POST'])
-def evaluate_answer_route():
-    data = request.json
-    answer = data.get('answer')
-    ideal_answer = data.get('ideal_answer')
-
-    score, feedback = evaluate_answer(answer, ideal_answer)
-    return jsonify({"score": score, "feedback": feedback})
+# Register blueprints
+app.register_blueprint(chatbot_bp, url_prefix='/chatbot')
+app.register_blueprint(resume_analyzer_bp, url_prefix='/resume_analyzer')
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')
