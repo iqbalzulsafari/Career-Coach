@@ -6,7 +6,7 @@ import joblib
 import scipy.sparse
 
 # Load dataset
-dataset = pd.read_csv(r"C:\Users\iqbalzulsafari\Documents\NLP-Chatbot\Dataset\DATASET RESUME.csv")
+dataset = pd.read_csv(r"Dataset\DATASET RESUME.csv")
 
 # Handle NaN values and convert float values to strings
 dataset.fillna('', inplace=True)
