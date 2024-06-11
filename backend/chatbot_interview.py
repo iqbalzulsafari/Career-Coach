@@ -13,7 +13,7 @@ model = BertModel.from_pretrained('bert-base-uncased')
 semantic_similarity = pipeline('feature-extraction', model=model, tokenizer=tokenizer)
 
 # Set OpenAI API key
-openai.api_key = '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'
+openai.api_key = 'OPENAI_API_KEY'
 
 def generate_question(role):
     # Generate question using OpenAI GPT
@@ -48,7 +48,7 @@ def evaluate_answer(answer, ideal_answer):
 
 def main():
     # Load the interview dataset
-    dataset_path = r"C:\Users\iqbalzulsafari\Documents\NLP-Chatbot\Dataset\Interview_Questions.csv"
+    dataset_path = r"INTERVIEW_QUESTION_DATASET_PATH"
     dataset = pd.read_csv(dataset_path)
 
     # Get unique categories from the dataset
