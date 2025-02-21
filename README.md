@@ -78,8 +78,8 @@ Ensure you have the following installed:
 ## 🧑‍💻 Contributors
 - [Iqbal Zulsafari](https://github.com/iqbalzulsafari)
 - [Adibah Syasya](https://github.com/Adibah)
-- [https://github.com/MasyitahHafidz](https://github.com/MasyitahHafidz)
-- [https://github.com/mariamrazak](https://github.com/mariamrazak)
+- [Masyitah Hafidz](https://github.com/MasyitahHafidz)
+- [Mariam Razak](https://github.com/mariamrazak)
 - [Nadhirah Sofea](https://github.com/nadhirahsofeaa)
 
 ---
